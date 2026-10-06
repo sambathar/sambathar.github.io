@@ -17,7 +17,12 @@ export const heroArchitectureNodes = [
     label: "Microsoft 365",
     x: 50,
     y: 11,
-    details: ["Exchange Online", "SharePoint", "Teams", "Multi-tenant administration"],
+    details: [
+      "Exchange Online",
+      "SharePoint",
+      "Teams",
+      "Multi-tenant administration",
+    ],
     related: ["identity", "security", "operations"],
   },
   {
@@ -49,7 +54,11 @@ export const heroArchitectureNodes = [
     label: "Cloud Operations",
     x: 50,
     y: 64,
-    details: ["Microsoft 365 tenants", "Azure resources", "Modern workplace operations"],
+    details: [
+      "Microsoft 365 tenants",
+      "Azure resources",
+      "Modern workplace operations",
+    ],
     related: ["azure", "automation", "ai", "intune", "security", "identity"],
   },
   {
@@ -57,7 +66,7 @@ export const heroArchitectureNodes = [
     label: "Azure",
     x: 23,
     y: 82,
-    details: ["VMs", "Storage Accounts", "Multi-tenant infrastructure"],
+    details: ["VMs", "Storage Accounts", "Azure administration"],
     related: ["operations", "automation"],
   },
   {
@@ -65,7 +74,11 @@ export const heroArchitectureNodes = [
     label: "Automation",
     x: 50,
     y: 88,
-    details: ["PowerShell", "Microsoft Graph API", "40% manual effort reduction"],
+    details: [
+      "PowerShell",
+      "Microsoft Graph API",
+      "40% manual effort reduction",
+    ],
     related: ["operations", "azure", "ai"],
   },
   {
@@ -155,6 +168,20 @@ export const technologyCategories = [
   },
 ] as const;
 
+// Relationships describe technology areas, not deployed integrations.
+export const technologyRelationships: readonly (readonly string[])[] = [
+  ["Microsoft 365", "Exchange Online", "SharePoint", "Teams"],
+  ["Entra ID", "Microsoft 365", "Azure"],
+  ["Microsoft Intune", "ManageEngine", "Addigy"],
+  ["Microsoft Purview", "DLP", "GDPR", "DSAR"],
+  ["Microsoft Defender", "MFA"],
+  ["PowerShell", "Microsoft Graph API", "Python", "Bash"],
+  ["Power Automate", "Power Apps", "Power BI"],
+  ["Azure VMs", "Azure Storage"],
+  ["AWS EC2", "AWS S3", "IAM"],
+  ["OpenAI APIs", "Claude APIs", "Gemini APIs", "AI agents"],
+];
+
 export const identityPrinciples = [
   {
     title: "AUTOMATE",
@@ -175,7 +202,12 @@ export const identityPrinciples = [
     description:
       "Reduce operational complexity through standardization, migration, SaaS administration and workflow design.",
     icon: "cloud",
-    reveals: ["Migration", "SaaS administration", "Workflow design", "Standardization"],
+    reveals: [
+      "Migration",
+      "SaaS administration",
+      "Workflow design",
+      "Standardization",
+    ],
   },
   {
     title: "MEASURE",
@@ -304,7 +336,14 @@ export const journey = [
     description:
       "Administered Microsoft 365, Google Workspace and Microsoft Purview while improving compliance, workflows and document management.",
     progression: "Microsoft 365 / Cloud",
-    technologies: ["M365", "SharePoint", "OneDrive", "MFA", "DLP", "Power Platform"],
+    technologies: [
+      "M365",
+      "SharePoint",
+      "OneDrive",
+      "MFA",
+      "DLP",
+      "Power Platform",
+    ],
   },
   {
     years: "2025-Present",
@@ -336,17 +375,19 @@ export const aiArchitectureNodes = [
   {
     id: "teams",
     title: "Teams",
-    x: 18,
-    y: 34,
-    description: "Microsoft Teams channel for IT support and internal workflow entry.",
+    x: 50,
+    y: 12,
+    description:
+      "Microsoft Teams channel for IT support and internal workflow entry.",
     path: ["teams", "router", "agents", "workflows"],
   },
   {
     id: "telegram",
     title: "Telegram",
-    x: 18,
-    y: 56,
-    description: "Telegram channel connected to task-specific support workflows.",
+    x: 82,
+    y: 12,
+    description:
+      "Telegram channel connected to task-specific support workflows.",
     path: ["telegram", "router", "agents", "workflows"],
   },
   {
@@ -354,14 +395,15 @@ export const aiArchitectureNodes = [
     title: "AI Router",
     x: 50,
     y: 34,
-    description: "Routes requests toward the right model or task-specific workflow.",
+    description:
+      "Routes requests toward the right model or task-specific workflow.",
     path: ["router", "openai", "claude", "gemini", "agents", "workflows"],
   },
   {
     id: "openai",
     title: "OpenAI",
-    x: 34,
-    y: 69,
+    x: 18,
+    y: 55,
     description: "Model API used within the modular AI automation platform.",
     path: ["router", "openai", "agents", "workflows"],
   },
@@ -369,32 +411,34 @@ export const aiArchitectureNodes = [
     id: "claude",
     title: "Claude",
     x: 50,
-    y: 76,
+    y: 55,
     description: "Model API used within the modular AI automation platform.",
     path: ["router", "claude", "agents", "workflows"],
   },
   {
     id: "gemini",
     title: "Gemini",
-    x: 66,
-    y: 69,
+    x: 82,
+    y: 55,
     description: "Model API used within the modular AI automation platform.",
     path: ["router", "gemini", "agents", "workflows"],
   },
   {
     id: "agents",
     title: "Task-Specific Agents",
-    x: 82,
-    y: 43,
-    description: "Task-specific agents automate IT support operations and internal workflows.",
+    x: 50,
+    y: 76,
+    description:
+      "Task-specific agents automate IT support operations and internal workflows.",
     path: ["agents", "workflows"],
   },
   {
     id: "workflows",
     title: "IT Support / Workflows",
-    x: 82,
-    y: 67,
-    description: "Internal workflows and support outcomes remain scoped to defined tasks.",
+    x: 50,
+    y: 93,
+    description:
+      "Internal workflows and support outcomes remain scoped to defined tasks.",
     path: ["workflows"],
   },
 ] as const;
