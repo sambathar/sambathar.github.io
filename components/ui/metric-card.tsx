@@ -5,15 +5,15 @@ import { cn } from "@/lib/utils";
 
 export interface MetricCardProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: string;
-  value?: string;
+  value?: React.ReactNode;
   helperText?: string;
 }
 
 export function MetricCard({
   className,
-  label = "Placeholder label",
+  label = "Metric",
   value = "—",
-  helperText = "Placeholder helper text",
+  helperText = "Measured outcome",
   ...props
 }: MetricCardProps) {
   return (

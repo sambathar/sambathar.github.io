@@ -1,6 +1,6 @@
 # Identity
 
-Purpose: TODO: Manually define the portfolio identity, positioning, and audience.
+Purpose: Capture the verified professional positioning used by the portfolio.
 
 Status: Draft
 
@@ -8,23 +8,23 @@ Status: Draft
 
 - [Positioning](#positioning)
 - [Audience](#audience)
-- [Proof Points](#proof-points)
+- [Content Boundaries](#content-boundaries)
 - [Related Documents](#related-documents)
 
 ## Positioning
 
-TODO: Define professional positioning without placeholder assumptions.
+Sambath A R is positioned around Cloud Infrastructure & IT Operations, Microsoft 365 & Azure, Intune, SaaS administration, and PowerShell automation.
 
 ## Audience
 
-TODO: Define primary and secondary audiences.
+Primary audience: recruiters and hiring managers evaluating Microsoft cloud, modern workplace, IT operations, automation, and security experience.
 
-## Proof Points
+## Content Boundaries
 
-TODO: Identify evidence, experience, and credibility signals to include later.
+Portfolio claims must be traceable to verified resume content. Do not add unsupported achievements, technologies, numbers, testimonials, employers, projects, or certifications.
 
 ## Related Documents
 
-- [Vision](./VISION.md)
+- [Master Spec](./MASTER_SPEC.md)
 - [Recruiter Journey](./RECRUITER_JOURNEY.md)
 - [Content Guidelines](./CONTENT_GUIDELINES.md)

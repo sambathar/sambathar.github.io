@@ -10,7 +10,6 @@ export const GlassPanel = React.forwardRef<HTMLDivElement, GlassPanelProps>(
       ref={ref}
       className={cn(
         "rounded-2xl border bg-card/70 shadow-panel backdrop-blur-xl",
-        // TODO(design-system): Confirm transparency and blur values.
         className,
       )}
       {...props}

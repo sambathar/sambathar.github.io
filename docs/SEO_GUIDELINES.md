@@ -1,30 +1,32 @@
 # SEO Guidelines
 
-Purpose: TODO: Manually define SEO, metadata, sharing, and discoverability requirements.
+Purpose: Document the V1 SEO metadata and content rules.
 
 Status: Draft
 
 ## Table of Contents
 
 - [Metadata](#metadata)
-- [Structured Content](#structured-content)
-- [Validation](#validation)
+- [Semantic Structure](#semantic-structure)
+- [Constraints](#constraints)
 - [Related Documents](#related-documents)
 
 ## Metadata
 
-TODO: Define title, description, canonical, Open Graph, and social metadata rules.
+Title: `Sambath A R | Cloud Infrastructure & Microsoft 365 Engineer`
 
-## Structured Content
+Description: `Cloud Infrastructure and IT Operations professional specializing in Microsoft 365, Azure, Intune, identity, automation, security and modern workplace engineering.`
 
-TODO: Define heading, linking, sitemap, robots, and structured data requirements.
+## Semantic Structure
 
-## Validation
+The homepage uses a single landing experience with semantic sections for hero, technology ecosystem, identity, case studies, measured impact, career journey, AI automation, resume, and contact/footer.
 
-TODO: Define SEO validation tools and acceptance criteria.
+## Constraints
+
+Do not keyword-stuff. Do not add unsupported claims for search traffic.
 
 ## Related Documents
 
-- [Content Guidelines](./CONTENT_GUIDELINES.md)
-- [Technical Stack](./TECH_STACK.md)
 - [Master Spec](./MASTER_SPEC.md)
+- [Content Guidelines](./CONTENT_GUIDELINES.md)
+- [Identity](./IDENTITY.md)

@@ -1,30 +1,30 @@
 # Design System
 
-Purpose: TODO: Manually define the design system foundations after visual decisions are approved.
+Purpose: Document the visual and interaction direction currently implemented.
 
 Status: Draft
 
 ## Table of Contents
 
 - [Foundations](#foundations)
-- [Tokens](#tokens)
-- [Usage Rules](#usage-rules)
+- [Visual Language](#visual-language)
+- [Motion](#motion)
 - [Related Documents](#related-documents)
 
 ## Foundations
 
-TODO: Define typography, color, spacing, layout, and accessibility foundations.
+The site is dark-first with light mode support. The current visual system uses neutral tokens, strong typography, thin borders, subtle glass surfaces, large spacing, minimal shadows, and architecture-inspired visuals.
 
-## Tokens
+## Visual Language
 
-TODO: Document approved design tokens and naming conventions.
+Interactive engineering visualizations are the primary visual language. Avoid neon colors, excessive gradients, generic AI imagery, stock photos, 3D assets, and unnecessary icon walls.
 
-## Usage Rules
+## Motion
 
-TODO: Define rules for applying the design system in components and pages.
+Motion supports hierarchy and interaction through fade-up entrances, staggered cards, expandable panels, timeline activation, metric count-up, and subtle path highlighting. Reduced motion must preserve all content and functionality.
 
 ## Related Documents
 
-- [Brand Guidelines](./BRAND_GUIDELINES.md)
-- [Animation System](./ANIMATION_SYSTEM.md)
 - [Component Library](./COMPONENT_LIBRARY.md)
+- [Animation System](./ANIMATION_SYSTEM.md)
+- [Content Guidelines](./CONTENT_GUIDELINES.md)

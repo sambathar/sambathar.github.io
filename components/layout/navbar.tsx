@@ -16,9 +16,9 @@ import { Button } from "@/components/ui/button";
 import { ThemeSwitch } from "@/components/ui/theme-switch";
 import { cn } from "@/lib/utils";
 
-const placeholderNavItems = [
+const navItems = [
   { label: "Home", href: "#home" },
-  { label: "Projects", href: "#projects" },
+  { label: "Case Studies", href: "#case-studies" },
   { label: "Journey", href: "#journey" },
   { label: "Resume", href: "#resume" },
   { label: "Contact", href: "#contact" },
@@ -121,12 +121,16 @@ export function Navbar() {
             <span
               className="size-7 rounded-lg border bg-muted"
               aria-hidden="true"
-            />
-            <span>Logo Placeholder</span>
+            >
+              <span className="flex size-full items-center justify-center text-[0.65rem] font-semibold tracking-tight">
+                SA
+              </span>
+            </span>
+            <span>Sambath A R</span>
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
-            {placeholderNavItems.map((item) => (
+            {navItems.map((item) => (
               <Button key={item.label} asChild variant="ghost" size="sm">
                 <a
                   href={item.href}
@@ -170,7 +174,6 @@ export function Navbar() {
               ref={mobileMenuRef}
               className={cn(
                 "border-b border-border/70 bg-background/90 shadow-panel backdrop-blur-xl",
-                // TODO(component-library): Finalize mobile navigation behavior.
               )}
               role="dialog"
               aria-modal="true"
@@ -184,7 +187,7 @@ export function Navbar() {
             >
               <Container className="py-3">
                 <nav className="grid gap-1" aria-label="Mobile main">
-                  {placeholderNavItems.map((item) => (
+                  {navItems.map((item) => (
                     <Button
                       key={item.label}
                       asChild

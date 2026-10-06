@@ -5,8 +5,8 @@ export function Footer() {
     <footer className="border-t">
       <Container>
         <div className="flex min-h-16 flex-col justify-center gap-2 py-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>Placeholder footer text.</p>
-          <p>TODO: Define footer links.</p>
+          <p>Sambath A R</p>
+          <p>Senior IT Administrator / Cloud Infrastructure Engineer</p>
         </div>
       </Container>
     </footer>

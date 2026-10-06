@@ -1,27 +1,30 @@
 # Recruiter Journey
 
-Purpose: TODO: Manually define the recruiter and hiring-manager journey through the portfolio.
+Purpose: Explain how the V1 portfolio supports recruiter and hiring-manager scanning.
 
 Status: Draft
 
 ## Table of Contents
 
-- [Audience Journey](#audience-journey)
-- [Key Questions](#key-questions)
+- [Journey](#journey)
+- [Decision Support](#decision-support)
 - [Conversion Paths](#conversion-paths)
 - [Related Documents](#related-documents)
 
-## Audience Journey
+## Journey
 
-TODO: Map the intended journey and decision points.
+The page starts with positioning, then moves through technology breadth, engineering principles, operational case studies, measured impact, career progression, AI automation, resume download, and contact.
 
-## Key Questions
+## Decision Support
 
-TODO: Define the questions the portfolio must answer for recruiters and hiring managers.
+Recruiters can assess role fit through verified Microsoft 365, Azure, Intune, automation, security, compliance, AI automation, and IT operations evidence.
 
 ## Conversion Paths
 
-TODO: Define intended contact, resume, profile, and follow-up paths.
+- Download resume.
+- Open LinkedIn.
+- Open GitHub.
+- Email `sambathar@outlook.com`.
 
 ## Related Documents
 

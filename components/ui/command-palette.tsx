@@ -73,7 +73,6 @@ export function CommandPalette() {
       <div
         className={cn(
           "mx-auto mt-24 max-w-xl rounded-2xl border bg-popover shadow-elevated",
-          // TODO(component-library): Replace skeleton with approved command model.
         )}
         onClick={(event) => event.stopPropagation()}
       >
@@ -81,13 +80,13 @@ export function CommandPalette() {
           <Search className="size-4 text-muted-foreground" aria-hidden />
           <input
             className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-            placeholder="Placeholder command search"
+            placeholder="Search commands"
             aria-label="Command search"
             disabled
           />
         </div>
         <div className="p-4 text-sm text-muted-foreground">
-          TODO: Define command palette actions and keyboard behavior.
+          Command actions will be enabled when a command model is approved.
         </div>
       </div>
     </div>

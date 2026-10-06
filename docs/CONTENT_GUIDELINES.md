@@ -1,30 +1,37 @@
 # Content Guidelines
 
-Purpose: TODO: Manually define content strategy, writing rules, and review criteria.
+Purpose: Define what content is allowed in the portfolio.
 
 Status: Draft
 
 ## Table of Contents
 
-- [Content Principles](#content-principles)
-- [Page Content](#page-content)
-- [Review Checklist](#review-checklist)
+- [Source of Truth](#source-of-truth)
+- [Allowed Content](#allowed-content)
+- [Disallowed Content](#disallowed-content)
 - [Related Documents](#related-documents)
 
-## Content Principles
+## Source of Truth
 
-TODO: Define approved content principles.
+Portfolio content must be derived from verified resume material for Sambath A R.
 
-## Page Content
+## Allowed Content
 
-TODO: Define required content blocks and ownership.
+- Verified roles, dates, companies, and locations.
+- Verified technologies and operational areas.
+- Verified outcomes such as endpoint compliance, manual effort reduction, cost reduction, tenant count, user count, endpoint migration count, Azure resource count, and availability.
 
-## Review Checklist
+## Disallowed Content
 
-TODO: Define editorial, factual, and compliance review steps.
+- Fabricated metrics.
+- Unsupported employer or client claims.
+- Fake testimonials.
+- Skill ratings, percentages, or progress bars.
+- Unsupported certifications.
+- Prominent phone number exposure in the website UI.
 
 ## Related Documents
 
 - [Identity](./IDENTITY.md)
-- [Brand Guidelines](./BRAND_GUIDELINES.md)
 - [SEO Guidelines](./SEO_GUIDELINES.md)
+- [Recruiter Journey](./RECRUITER_JOURNEY.md)
