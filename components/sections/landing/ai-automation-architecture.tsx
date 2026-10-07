@@ -6,7 +6,14 @@ import { SystemDiagram } from "./system-diagram";
 const nodes = aiArchitectureNodes.map((node) => ({
   ...node,
   label: node.title,
-  details: [node.description],
+  details:
+    node.id === "router"
+      ? [
+          "Routes requests from WhatsApp, Teams and Telegram",
+          "Selects the appropriate model or task-specific workflow",
+          "Connects AI capabilities to IT support and internal workflows",
+        ]
+      : [node.description],
 }));
 
 export function AIAutomationArchitecture() {

@@ -18,7 +18,10 @@ export function SectionHeading({
   ...props
 }: SectionHeadingProps) {
   return (
-    <div className={cn("max-w-3xl space-y-4", className)} {...props}>
+    <div
+      className={cn("section-entry-heading max-w-3xl space-y-4", className)}
+      {...props}
+    >
       {eyebrow ? (
         <p className={cn(typographyTokens.eyebrow, "text-muted-foreground")}>
           {eyebrow}

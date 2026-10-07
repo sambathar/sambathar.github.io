@@ -1,14 +1,18 @@
 "use client";
 
-import { useId, useState, type CSSProperties } from "react";
+import { useEffect, useId, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+
 import { cn } from "@/lib/utils";
 
 export interface SystemNode {
   id: string;
   label: string;
+  /** Fixed desktop center coordinates, as percentages of the SVG viewBox. */
   x: number;
   y: number;
+  width?: number;
+  height?: number;
   details: readonly string[];
 }
 
@@ -20,7 +24,59 @@ interface SystemDiagramProps {
   flow?: boolean;
 }
 
-/** Shared keyboard/touch interaction and responsive geometry for system maps. */
+interface NodeGeometry {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export function getDiagramGeometry(
+  nodes: readonly SystemNode[],
+  mobile: boolean,
+  flow: boolean,
+) {
+  const width = mobile ? 280 : 400;
+  let mobileCursor = 5;
+  const boxes = new Map<string, NodeGeometry>(
+    nodes.map((node) => {
+      const nodeHeight = node.height ?? 44;
+      const box = mobile
+        ? {
+            x: width / 2,
+            y: mobileCursor + nodeHeight / 2,
+            width: 176,
+            height: nodeHeight,
+          }
+        : {
+            x: (node.x * width) / 100,
+            y: (node.y * (flow ? 400 : 360)) / 100,
+            width: node.width ?? (flow ? 104 : 136),
+            height: nodeHeight,
+          };
+      mobileCursor += nodeHeight + 20;
+      return [node.id, box] as const;
+    }),
+  );
+  const height = mobile ? mobileCursor - 20 + 5 : flow ? 400 : 360;
+  return { width, height, boxes };
+}
+
+/** Shared SVG coordinates keep the node boxes and connector ports aligned. */
+export function connectorPath(
+  from: NodeGeometry,
+  to: NodeGeometry,
+  arrowClearance = 0,
+) {
+  const start = { x: from.x, y: from.y + from.height / 2 };
+  const end = { x: to.x, y: to.y - to.height / 2 - arrowClearance };
+  const middleY = (start.y + end.y) / 2;
+
+  if (start.x === end.x) return `M ${start.x} ${start.y} V ${end.y}`;
+  return `M ${start.x} ${start.y} C ${start.x} ${middleY}, ${end.x} ${middleY}, ${end.x} ${end.y}`;
+}
+
+/** Hover/focus previews a node; native button activation retains its selection. */
 export function SystemDiagram({
   label,
   nodes,
@@ -29,12 +85,21 @@ export function SystemDiagram({
   flow = false,
 }: SystemDiagramProps) {
   const [selected, setSelected] = useState(initialNode);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [focused, setFocused] = useState<string | null>(null);
   const reduced = useReducedMotion();
-  const panelId = useId();
-  const active = nodes.find((node) => node.id === selected) ?? nodes[0];
-  const highlighted = new Set([selected]);
+  const [hydrated, setHydrated] = useState(false);
+  // The media preference is null on the server but boolean in the browser.
+  // Only optional motion layers wait; both SVG layouts and all nodes render in SSR.
+  useEffect(() => setHydrated(true), []);
+  const instanceId = useId();
+  const panelId = `${instanceId}-context`;
+  const hintId = `${instanceId}-hint`;
+  const activeId = hovered ?? focused ?? selected;
+  const active = nodes.find((node) => node.id === activeId) ?? nodes[0];
+  const highlighted = new Set([activeId]);
+
   if (flow) {
-    // Follow downstream edges; model selection also includes its router input.
     function visit(id: string) {
       for (const [from, to] of connections) {
         if (from === id && !highlighted.has(to)) {
@@ -43,126 +108,260 @@ export function SystemDiagram({
         }
       }
     }
-    visit(selected);
-    if (["openai", "claude", "gemini"].includes(selected))
+    visit(activeId);
+    // A model's incoming router edge is part of its request path.
+    if (["openai", "claude", "gemini"].includes(activeId))
       highlighted.add("router");
   } else {
     for (const [from, to] of connections) {
-      if (from === selected) highlighted.add(to);
-      if (to === selected) highlighted.add(from);
+      if (from === activeId) highlighted.add(to);
+      if (to === activeId) highlighted.add(from);
     }
   }
 
-  function position(node: SystemNode, mobile: boolean) {
-    return mobile
-      ? { x: 50, y: 7 + nodes.indexOf(node) * (86 / (nodes.length - 1)) }
-      : node;
-  }
-
   return (
-    <div className="space-y-4" role="group" aria-label={label}>
-      <div className="surface-grid relative h-[38rem] overflow-hidden rounded-xl sm:h-[29rem]">
-        {[true, false].map((mobile) => (
-          <svg
-            key={String(mobile)}
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-            className={cn(
-              "pointer-events-none absolute inset-0 h-full w-full",
-              mobile ? "sm:hidden" : "hidden sm:block",
-            )}
-            fill="none"
-            aria-hidden="true"
-          >
-            {connections.map(([from, to], index) => {
-              const start = nodes.find((node) => node.id === from)!;
-              const end = nodes.find((node) => node.id === to)!;
-              const a = position(start, mobile);
-              const b = position(end, mobile);
-              const lit = flow
-                ? highlighted.has(from) && highlighted.has(to)
-                : from === selected || to === selected;
-              const d = mobile
-                ? `M${a.x} ${a.y} C${index % 2 ? 15 : 85} ${a.y}, ${index % 2 ? 15 : 85} ${b.y}, ${b.x} ${b.y}`
-                : `M${a.x} ${a.y} C${a.x} ${(a.y + b.y) / 2}, ${b.x} ${(a.y + b.y) / 2}, ${b.x} ${b.y}`;
-              return (
-                <g key={`${from}-${to}`}>
-                  <motion.path
-                    d={d}
-                    vectorEffect="non-scaling-stroke"
-                    className={lit ? "stroke-foreground/50" : "stroke-border"}
-                    strokeWidth={lit ? 1.5 : 1}
-                    initial={reduced ? false : { pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{
-                      duration: 0.6,
-                      delay: reduced ? 0 : index * 0.035,
-                    }}
-                  />
-                  {lit && !reduced && (
-                    <motion.path
-                      d={d}
-                      vectorEffect="non-scaling-stroke"
-                      className="stroke-foreground/50"
-                      strokeWidth="2"
-                      pathLength="1"
-                      strokeDasharray="0.04 0.96"
-                      animate={{ strokeDashoffset: [1, 0] }}
-                      transition={{
-                        duration: 3.5,
-                        repeat: Infinity,
-                        repeatDelay: 2,
-                        ease: "linear",
-                      }}
+    <div className="space-y-3" role="group" aria-label={label}>
+      <p id={hintId} className="text-xs text-muted-foreground">
+        Select a node to explore
+      </p>
+      <div className="surface-grid rounded-xl">
+        {[false, true].map((mobile) => {
+          const {
+            width,
+            height,
+            boxes: geometry,
+          } = getDiagramGeometry(nodes, mobile, flow);
+          const markerId = `${instanceId}-${mobile ? "mobile" : "desktop"}`;
+
+          return (
+            <svg
+              key={String(mobile)}
+              viewBox={`0 0 ${width} ${height}`}
+              className={cn(
+                "mx-auto w-full overflow-visible",
+                mobile
+                  ? "max-w-[20rem] sm:hidden"
+                  : "hidden max-w-[26rem] sm:block",
+              )}
+              role="group"
+              aria-label={`${label} nodes and connections`}
+              aria-describedby={hintId}
+            >
+              {flow && (
+                <defs>
+                  <marker
+                    id={`${markerId}-active`}
+                    viewBox="0 0 6 6"
+                    refX="6"
+                    refY="3"
+                    markerWidth="6"
+                    markerHeight="6"
+                    markerUnits="userSpaceOnUse"
+                    orient="auto"
+                  >
+                    <path d="M0 0L6 3L0 6Z" className="fill-foreground/75" />
+                  </marker>
+                  <marker
+                    id={`${markerId}-inactive`}
+                    viewBox="0 0 6 6"
+                    refX="6"
+                    refY="3"
+                    markerWidth="6"
+                    markerHeight="6"
+                    markerUnits="userSpaceOnUse"
+                    orient="auto"
+                  >
+                    <path
+                      d="M0 0L6 3L0 6Z"
+                      className="fill-muted-foreground/40"
                     />
-                  )}
-                </g>
-              );
-            })}
-          </svg>
-        ))}
-        {nodes.map((node) => (
-          <button
-            key={node.id}
-            type="button"
-            aria-label={`${node.label}: ${node.details.join(", ")}`}
-            aria-pressed={selected === node.id}
-            aria-describedby={selected === node.id ? panelId : undefined}
-            onMouseEnter={() => setSelected(node.id)}
-            onFocus={() => setSelected(node.id)}
-            onClick={() => setSelected(node.id)}
-            style={
-              {
-                "--node-x": `${node.x}%`,
-                "--node-y": `${node.y}%`,
-                "--mobile-y": `${position(node, true).y}%`,
-              } as CSSProperties
-            }
-            className={cn(
-              "absolute left-1/2 top-[var(--mobile-y)] z-10 w-max max-w-[10rem] -translate-x-1/2 -translate-y-1/2 rounded-xl border bg-card px-3 py-3 text-center text-sm font-medium transition-[border-color,box-shadow,opacity] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:left-[var(--node-x)] sm:top-[var(--node-y)] sm:max-w-[8.5rem]",
-              selected === node.id
-                ? "border-foreground shadow-panel ring-1 ring-foreground/20"
-                : highlighted.has(node.id)
-                  ? "border-foreground/40"
-                  : "opacity-60",
-            )}
-          >
-            {node.label}
-          </button>
-        ))}
+                  </marker>
+                </defs>
+              )}
+              <g fill="none" aria-hidden="true">
+                {connections.map(([fromId, toId], index) => {
+                  const from = geometry.get(fromId)!;
+                  const to = geometry.get(toId)!;
+                  const lit = flow
+                    ? highlighted.has(fromId) && highlighted.has(toId)
+                    : fromId === activeId || toId === activeId;
+                  // Mobile skips use a side lane rather than crossing intermediate nodes.
+                  const adjacent =
+                    Math.abs(
+                      nodes.findIndex((node) => node.id === toId) -
+                        nodes.findIndex((node) => node.id === fromId),
+                    ) === 1;
+                  const lane = index % 2 ? 20 : width - 20;
+                  const d =
+                    mobile && !adjacent
+                      ? `M ${from.x + ((lane < from.x ? -1 : 1) * from.width) / 2} ${from.y} H ${lane} V ${to.y} H ${to.x + (lane < to.x ? -1 : 1) * (to.width / 2 + (flow ? 4 : 0))}`
+                      : connectorPath(from, to, flow ? 4 : 0);
+
+                  return (
+                    <g key={`${fromId}-${toId}`}>
+                      <path
+                        d={d}
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={cn(
+                          "motion-safe:transition-colors motion-safe:duration-200",
+                          lit
+                            ? "stroke-foreground/75"
+                            : "stroke-muted-foreground/40",
+                        )}
+                        markerEnd={
+                          flow
+                            ? `url(#${markerId}-${lit ? "active" : "inactive"})`
+                            : undefined
+                        }
+                      />
+                      {hydrated && lit && reduced === false && (
+                        <motion.path
+                          d={d}
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          className="stroke-foreground/80"
+                          pathLength="1"
+                          strokeDasharray="0.05 0.95"
+                          animate={{ strokeDashoffset: [1, 0] }}
+                          transition={{
+                            duration: 3.8,
+                            repeat: Infinity,
+                            repeatDelay: 2,
+                            ease: "linear",
+                          }}
+                        />
+                      )}
+                    </g>
+                  );
+                })}
+              </g>
+              {nodes.map((node) => {
+                const box = geometry.get(node.id)!;
+                const x = box.x - box.width / 2;
+                const y = box.y - box.height / 2;
+                const isActive = activeId === node.id;
+                const isRelated = highlighted.has(node.id);
+
+                return (
+                  <g key={node.id} className="group">
+                    <rect
+                      x={x - 3}
+                      y={y - 3}
+                      width={box.width + 6}
+                      height={box.height + 6}
+                      rx="13"
+                      fill="none"
+                      strokeWidth="2"
+                      className="stroke-ring opacity-0 group-focus-within:opacity-100"
+                      aria-hidden="true"
+                    />
+                    <rect
+                      x={x}
+                      y={y}
+                      width={box.width}
+                      height={box.height}
+                      rx="10"
+                      strokeWidth={isActive ? 1.75 : 1}
+                      className={cn(
+                        "group-hover:fill-muted motion-safe:transition-[fill,stroke,filter] motion-safe:duration-200",
+                        isActive
+                          ? "fill-muted stroke-foreground/90 drop-shadow-[0_0_5px_hsl(var(--foreground)/0.12)]"
+                          : isRelated
+                            ? "fill-card stroke-foreground/45"
+                            : "fill-card stroke-muted-foreground/40",
+                      )}
+                      aria-hidden="true"
+                    />
+                    <foreignObject
+                      x={x}
+                      y={y}
+                      width={box.width}
+                      height={box.height}
+                    >
+                      <button
+                        type="button"
+                        aria-label={node.label}
+                        aria-pressed={selected === node.id}
+                        aria-controls={panelId}
+                        aria-describedby={
+                          isActive ? `${hintId} ${panelId}` : hintId
+                        }
+                        onMouseEnter={() => setHovered(node.id)}
+                        onMouseLeave={() => setHovered(null)}
+                        onFocus={() => setFocused(node.id)}
+                        onBlur={() => setFocused(null)}
+                        onClick={() => setSelected(node.id)}
+                        className="flex h-full w-full cursor-pointer items-center justify-center rounded-[10px] px-2 text-center text-[14px] font-medium leading-4 text-foreground outline-none"
+                      >
+                        {node.label}
+                      </button>
+                    </foreignObject>
+                    {isActive && (
+                      <circle
+                        cx={x + box.width - 8}
+                        cy={y + 8}
+                        r="2"
+                        className="pointer-events-none fill-foreground"
+                        aria-hidden="true"
+                      />
+                    )}
+                  </g>
+                );
+              })}
+            </svg>
+          );
+        })}
       </div>
       <div
         id={panelId}
-        className="min-h-[7rem] rounded-xl border bg-background/80 p-4"
+        className={cn(
+          "rounded-xl border border-foreground/20 bg-background/80",
+          flow ? "p-3 sm:p-4" : "p-4",
+          flow ? "grid" : "h-40 overflow-y-auto sm:h-36",
+        )}
         aria-live="polite"
         aria-atomic="true"
       >
-        <p className="text-sm font-medium">{active.label}</p>
-        <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm leading-6 text-muted-foreground">
-          {active.details.map((detail) => (
-            <li key={detail}>{detail}</li>
-          ))}
-        </ul>
+        {flow ? (
+          nodes.map((node) => (
+            <motion.div
+              key={node.id}
+              className={cn(
+                "[grid-area:1/1]",
+                node.id !== active.id &&
+                  "pointer-events-none hidden sm:invisible sm:block",
+              )}
+              aria-hidden={node.id !== active.id}
+              inert={node.id !== active.id}
+              initial={false}
+              animate={{ opacity: node.id === active.id ? 1 : 0 }}
+              transition={{ duration: hydrated && !reduced ? 0.16 : 0 }}
+            >
+              <p className="text-sm font-medium">{node.label}</p>
+              <ul className="mt-2 list-disc space-y-1 pl-4 text-sm leading-6 text-muted-foreground">
+                {node.details.map((detail) => (
+                  <li key={detail}>{detail}</li>
+                ))}
+              </ul>
+            </motion.div>
+          ))
+        ) : (
+          <motion.div
+            key={active.id}
+            initial={!hydrated || reduced ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: reduced ? 0 : 0.16 }}
+          >
+            <p className="text-sm font-medium">{active.label}</p>
+            <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm leading-6 text-muted-foreground">
+              {active.details.map((detail) => (
+                <li key={detail}>{detail}</li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
       </div>
     </div>
   );

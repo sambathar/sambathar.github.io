@@ -16,7 +16,7 @@ export const heroArchitectureNodes = [
     id: "m365",
     label: "Microsoft 365",
     x: 50,
-    y: 11,
+    y: 8,
     details: [
       "Exchange Online",
       "SharePoint",
@@ -29,7 +29,7 @@ export const heroArchitectureNodes = [
     id: "identity",
     label: "Entra ID",
     x: 50,
-    y: 29,
+    y: 24,
     details: ["Identity and access", "MFA", "User lifecycle"],
     related: ["m365", "intune", "security", "operations"],
   },
@@ -37,7 +37,7 @@ export const heroArchitectureNodes = [
     id: "intune",
     label: "Intune",
     x: 24,
-    y: 48,
+    y: 42,
     details: ["MDM", "macOS / Windows", "100-150 endpoints", "100% compliance"],
     related: ["identity", "operations", "security"],
   },
@@ -45,7 +45,7 @@ export const heroArchitectureNodes = [
     id: "security",
     label: "Security / Purview",
     x: 76,
-    y: 48,
+    y: 42,
     details: ["eDiscovery", "Retention", "Sensitivity labeling", "DLP / DSAR"],
     related: ["m365", "identity", "intune", "operations"],
   },
@@ -53,7 +53,7 @@ export const heroArchitectureNodes = [
     id: "operations",
     label: "Cloud Operations",
     x: 50,
-    y: 64,
+    y: 60,
     details: [
       "Microsoft 365 tenants",
       "Azure resources",
@@ -64,30 +64,30 @@ export const heroArchitectureNodes = [
   {
     id: "azure",
     label: "Azure",
-    x: 23,
-    y: 82,
+    x: 24,
+    y: 78,
     details: ["VMs", "Storage Accounts", "Azure administration"],
+    related: ["operations", "automation"],
+  },
+  {
+    id: "ai",
+    label: "AI",
+    x: 76,
+    y: 78,
+    details: ["OpenAI", "Claude", "Gemini", "Task-specific agents"],
     related: ["operations", "automation"],
   },
   {
     id: "automation",
     label: "Automation",
     x: 50,
-    y: 88,
+    y: 92,
     details: [
       "PowerShell",
       "Microsoft Graph API",
       "40% manual effort reduction",
     ],
     related: ["operations", "azure", "ai"],
-  },
-  {
-    id: "ai",
-    label: "AI",
-    x: 77,
-    y: 82,
-    details: ["OpenAI", "Claude", "Gemini", "Task-specific agents"],
-    related: ["operations", "automation"],
   },
 ] as const;
 
@@ -98,9 +98,9 @@ export const heroArchitectureConnections = [
   ["intune", "operations"],
   ["security", "operations"],
   ["operations", "azure"],
-  ["operations", "automation"],
   ["operations", "ai"],
-  ["automation", "ai"],
+  ["azure", "automation"],
+  ["ai", "automation"],
 ] as const;
 
 export const technologyCategories = [
@@ -202,53 +202,51 @@ export const identityPrinciples = [
     description:
       "Reduce operational complexity through standardization, migration, SaaS administration and workflow design.",
     icon: "cloud",
-    reveals: [
-      "Migration",
-      "SaaS administration",
-      "Workflow design",
-      "Standardization",
-    ],
+    reveals: ["Migration", "SaaS administration", "Standardization"],
   },
   {
     title: "MEASURE",
     description:
       "Track operational outcomes through compliance, efficiency, availability, cost and effort reduction.",
     icon: "check",
-    reveals: ["Compliance", "Cost", "Efficiency", "Availability", "Effort"],
+    reveals: ["Compliance", "Cost", "Availability", "Effort reduction"],
   },
 ] as const;
 
 export const caseStudies = [
   {
     title: "Endpoint & MDM Modernization",
-    context: "Global MDM migration across 100-150 macOS/Windows endpoints.",
+    context:
+      "Managing a mixed macOS and Windows endpoint fleet required a global MDM migration and stronger compliance controls.",
     approach:
-      "Coordinated endpoint migration, compliance validation, and policy alignment across global users.",
+      "Coordinated endpoint migration using ManageEngine and Microsoft Intune, with compliance validation and policy alignment across global users.",
     technology: ["ManageEngine", "Microsoft Intune"],
     outcome: "100% endpoint compliance",
   },
   {
     title: "Microsoft 365 Cost Optimization",
     context:
-      "Audited E3 license utilization, right-sized licenses based on user activity, and converted inactive accounts to shared mailboxes.",
+      "Microsoft 365 licensing costs were growing as inactive and over-provisioned accounts remained in the environment.",
     approach:
-      "Reviewed usage patterns, reduced inactive licensing, and aligned cloud spend with actual operational need.",
+      "Audited E3 license utilization, reviewed user activity, right-sized licenses and converted suitable inactive accounts to shared mailboxes.",
     technology: ["Microsoft 365", "License audits", "Shared mailboxes"],
     outcome: "40% reduction in Microsoft 365 licensing and cloud costs",
   },
   {
     title: "Identity & User Lifecycle Automation",
-    context: "Automated multi-tenant user lifecycle management.",
+    context:
+      "User onboarding, updates and offboarding across multiple tenants were manual and inconsistent.",
     approach:
-      "Used scripted workflows to standardize user provisioning, updates, and operational lifecycle tasks.",
+      "Used PowerShell and Microsoft Graph workflows to standardize user provisioning, updates and offboarding across multiple tenants.",
     technology: ["PowerShell", "Microsoft Graph API"],
     outcome: "40% reduction in manual effort",
   },
   {
     title: "AI-Driven IT Automation",
-    context: "Engineered a modular AI automation platform.",
+    context:
+      "IT support workflows across WhatsApp, Teams and Telegram needed a modular automation layer for task-specific operations.",
     approach:
-      "Connected task-specific AI agents to support operations and internal workflow channels.",
+      "Connected task-specific AI agents through a modular platform integrating OpenAI, Claude and Gemini APIs with support operations and internal workflow channels.",
     technology: ["OpenAI APIs", "Claude APIs", "Gemini APIs"],
     channels: ["WhatsApp", "Microsoft Teams", "Telegram"],
     outcome:
@@ -267,26 +265,14 @@ export const measuredImpact = [
     value: "40%",
     numericValue: 40,
     label: "Manual effort reduction",
-    context: "PowerShell + Microsoft Graph API",
-  },
-  {
-    value: "40%",
-    numericValue: 40,
-    label: "M365 / cloud cost reduction",
-    context: "Licensing audits + right-sizing",
+    context: "PowerShell + Microsoft Graph user lifecycle automation",
   },
   {
     value: "4",
     numericValue: 4,
-    label: "M365 tenants managed",
+    label:
+      "Microsoft 365 tenants managed across multiple business environments",
     context: "Multi-tenant administration",
-  },
-  {
-    value: "100+",
-    numericValue: 100,
-    suffix: "+",
-    label: "Users supported",
-    context: "Global teams",
   },
   {
     value: "100-150",
@@ -294,6 +280,12 @@ export const measuredImpact = [
     prefix: "100-",
     label: "Endpoints migrated",
     context: "macOS / Windows endpoints",
+  },
+  {
+    value: "40%",
+    numericValue: 40,
+    label: "M365 / cloud cost reduction",
+    context: "License audits + right-sizing",
   },
   {
     value: "10+",
@@ -427,7 +419,9 @@ export const aiArchitectureNodes = [
     id: "agents",
     title: "Task-Specific Agents",
     x: 50,
-    y: 76,
+    y: 72,
+    width: 128,
+    height: 56,
     description:
       "Task-specific agents automate IT support operations and internal workflows.",
     path: ["agents", "workflows"],
@@ -436,7 +430,9 @@ export const aiArchitectureNodes = [
     id: "workflows",
     title: "IT Support / Workflows",
     x: 50,
-    y: 93,
+    y: 92,
+    width: 128,
+    height: 56,
     description:
       "Internal workflows and support outcomes remain scoped to defined tasks.",
     path: ["workflows"],

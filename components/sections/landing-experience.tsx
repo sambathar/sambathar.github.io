@@ -41,40 +41,43 @@ export function LandingExperience() {
 }
 function HeroSection() {
   return (
-    <Section id="home" className="scroll-mt-24 overflow-hidden">
+    <Section
+      id="home"
+      spacing="sm"
+      className="scroll-mt-24 overflow-hidden lg:py-12"
+    >
       <Container>
-        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
           <motion.div
-            className="space-y-8"
+            className="min-w-0 space-y-6"
             variants={stagger}
             initial="hidden"
             animate="visible"
           >
-            <motion.div className="space-y-5" variants={fadeUp}>
+            <motion.div className="space-y-4" variants={fadeUp}>
               <p className="text-sm font-medium text-muted-foreground">
-                Sambath A R
+                Senior IT Administrator · Cloud Infrastructure Engineer
               </p>
-              <h1 className="text-balance text-4xl font-semibold tracking-tight md:text-6xl">
+              <h1 className="max-w-[18ch] text-balance text-4xl font-semibold leading-[1.12] tracking-tight sm:max-w-[24ch] md:text-5xl lg:max-w-none lg:text-[clamp(2.375rem,3.15vw,2.75rem)]">
                 Building secure Microsoft cloud environments through automation,
                 identity, and modern workplace engineering.
               </h1>
-              <div className="space-y-1 text-lg text-muted-foreground">
-                <p>Senior IT Administrator</p>
-                <p>Cloud Infrastructure Engineer</p>
-              </div>
               <p className="max-w-2xl text-base leading-7 text-muted-foreground">
                 I work across Microsoft 365, Azure, Intune, identity,
-                automation, and cloud operations to make enterprise IT
-                environments more secure, efficient, and manageable.
+                automation, and cloud operations to make modern IT environments
+                more secure, efficient, and manageable.
               </p>
             </motion.div>
 
             <motion.div className="space-y-4" variants={fadeUp}>
-              <div className="flex flex-col gap-3 sm:flex-row">
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Button size="lg" asChild>
-                  <a href="#case-studies">
-                    View Engineering Stories
-                    <ArrowRight className="ml-2 size-4" aria-hidden />
+                  <a href="#case-studies" className="group">
+                    View Case Studies
+                    <ArrowRight
+                      className="ml-2 size-4 motion-safe:transition-transform motion-safe:group-hover:translate-x-0.5"
+                      aria-hidden
+                    />
                   </a>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
@@ -89,7 +92,7 @@ function HeroSection() {
             </motion.div>
           </motion.div>
 
-          <GlassPanel className="relative min-w-0 overflow-hidden p-6">
+          <GlassPanel className="relative min-w-0 p-4 sm:p-5">
             <HeroArchitecture />
           </GlassPanel>
         </div>
@@ -123,13 +126,18 @@ function SocialLinks() {
 
 function TechnologyEcosystemSection() {
   return (
-    <Section id="technology" spacing="sm" className="scroll-mt-24 border-t">
+    <Section
+      id="technology"
+      reveal
+      spacing="sm"
+      className="scroll-mt-24 border-t max-sm:py-8"
+    >
       <Container>
-        <div className="space-y-8">
+        <div className="space-y-5 sm:space-y-8">
           <SectionHeading
             eyebrow="Technology Ecosystem"
             title="Operating across Microsoft cloud, workplace, security, automation and AI."
-            description="Select a category to inspect the verified technology areas represented in the portfolio."
+            description="Select a category to inspect the technology areas represented in the portfolio."
           />
 
           <TechnologyEcosystem />
@@ -140,9 +148,14 @@ function TechnologyEcosystemSection() {
 }
 function IdentitySection() {
   return (
-    <Section id="identity" spacing="sm" className="scroll-mt-24 border-t">
+    <Section
+      id="identity"
+      reveal
+      spacing="sm"
+      className="scroll-mt-24 border-t max-sm:py-8"
+    >
       <Container>
-        <div className="space-y-8">
+        <div className="space-y-5 sm:space-y-8">
           <SectionHeading
             eyebrow="Engineering Identity"
             title="How I Think"
@@ -156,16 +169,21 @@ function IdentitySection() {
 }
 function AiAutomationSection() {
   return (
-    <Section id="ai-automation" spacing="sm" className="scroll-mt-24 border-t">
+    <Section
+      id="ai-automation"
+      reveal
+      spacing="sm"
+      className="scroll-mt-24 border-t max-sm:py-8"
+    >
       <Container>
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="grid gap-5 sm:gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <SectionHeading
             eyebrow="AI Automation"
             title="A modular automation architecture for IT support and internal workflows."
             description="The platform connects messaging channels, model APIs, and task-specific agents within defined support workflows."
           />
 
-          <GlassPanel className="min-w-0 p-5">
+          <GlassPanel className="min-w-0 p-3 sm:p-5">
             <AIAutomationArchitecture />
           </GlassPanel>
         </div>
@@ -183,7 +201,7 @@ function ResumeSection() {
               <SectionHeading
                 eyebrow="Resume"
                 title="Download the current resume."
-                description="A compact profile preview is shown here. The full resume is available as a PDF."
+                description="A snapshot of my core skills. The full details are in the PDF."
               />
               <div className="flex flex-wrap gap-2">
                 {resumeHighlights.map((highlight, index) => (
@@ -227,12 +245,25 @@ function ContactSection() {
               title="Let's build better IT environments."
               description="For cloud infrastructure, Microsoft 365, automation, security and modern workplace engineering conversations, email is the best starting point."
             />
-            <Button size="lg" asChild>
-              <a href="mailto:sambathar@outlook.com">
-                sambathar@outlook.com
-                <Mail className="ml-2 size-4" aria-hidden />
-              </a>
-            </Button>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Button size="lg" asChild>
+                <a href="mailto:sambathar@outlook.com">
+                  Email
+                  <Mail className="ml-2 size-4" aria-hidden />
+                </a>
+              </Button>
+              <Button size="lg" asChild>
+                <a
+                  href="https://linkedin.com/in/sambathar"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Open Sambath A R on LinkedIn"
+                >
+                  LinkedIn
+                  <Linkedin className="ml-2 size-4" aria-hidden />
+                </a>
+              </Button>
+            </div>
           </div>
 
           <Divider />
