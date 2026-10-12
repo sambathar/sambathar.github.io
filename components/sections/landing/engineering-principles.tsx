@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   CheckCircle2,
   CloudCog,
@@ -30,7 +30,6 @@ export function EngineeringPrinciples() {
   const [active, setActive] = useState<string | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
   const [focused, setFocused] = useState<string | null>(null);
-  const reduced = useReducedMotion();
   return (
     <>
       <div className="grid gap-2 md:hidden" aria-label="Engineering principles">
@@ -67,14 +66,10 @@ export function EngineeringPrinciples() {
                   )}
                 </button>
               </h3>
-              <div
-                id={panelId}
-                hidden={!expanded}
-                className="space-y-3 px-3 pb-3"
-              >
-                <p className="text-sm leading-6 text-muted-foreground">
-                  {principle.description}
-                </p>
+              <p className="px-3 pb-3 text-sm leading-6 text-muted-foreground">
+                {principle.description}
+              </p>
+              <div id={panelId} hidden={!expanded} className="px-3 pb-3">
                 <div className="flex flex-wrap gap-2">
                   {principle.reveals.map((tag) => (
                     <Tag key={tag}>{tag}</Tag>
@@ -103,7 +98,7 @@ export function EngineeringPrinciples() {
             >
               <button
                 type="button"
-                aria-expanded={selected}
+                aria-pressed={selected}
                 aria-controls={`principle-${principle.title.toLowerCase()}`}
                 onMouseEnter={() => setHovered(principle.title)}
                 onMouseLeave={() => setHovered(null)}
@@ -130,21 +125,14 @@ export function EngineeringPrinciples() {
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
                   {principle.description}
                 </p>
-                <motion.div
+                <div
                   id={`principle-${principle.title.toLowerCase()}`}
-                  className="mt-4 flex min-h-[5.5rem] flex-wrap content-start gap-2"
-                  aria-hidden={!selected}
-                  initial={{ opacity: 0, y: 0 }}
-                  animate={{
-                    opacity: selected ? 1 : 0,
-                    y: reduced || selected ? 0 : 4,
-                  }}
-                  transition={{ duration: reduced ? 0 : 0.18 }}
+                  className="mt-4 flex flex-wrap content-start gap-2"
                 >
                   {principle.reveals.map((tag) => (
                     <Tag key={tag}>{tag}</Tag>
                   ))}
-                </motion.div>
+                </div>
               </button>
             </motion.div>
           );

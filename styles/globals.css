@@ -3,6 +3,8 @@
 @tailwind utilities;
 @layer base {
   :root {
+    /* Sticky navbar is 4rem; clearance uses existing responsive gutters. */
+    --section-anchor-offset: 5rem;
     /* TODO(design-system): Replace neutral placeholder values with approved color tokens. */
     --background: 0 0% 98%;
     --foreground: 0 0% 10%;
@@ -68,6 +70,12 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@media (min-width: 640px) {
+  :root {
+    --section-anchor-offset: 6rem;
   }
 }
 
@@ -158,8 +166,14 @@
     box-shadow: var(--shadow-soft);
     border-color: hsl(var(--foreground) / 0.4);
   }
+  .interactive-surface[aria-pressed="true"]:hover {
+    border-color: hsl(var(--foreground));
+  }
 }
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   .interactive-surface {
     transition: none;
   }

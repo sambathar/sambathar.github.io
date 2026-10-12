@@ -27,7 +27,12 @@ export function Section({
   return (
     <section
       ref={reveal ? ref : undefined}
-      className={cn(spacingMap[spacing], reveal && "section-entry", className)}
+      className={cn(
+        spacingMap[spacing],
+        reveal && "section-entry",
+        className,
+        "scroll-mt-[var(--section-anchor-offset)]",
+      )}
       data-reveal={reveal && entered ? "entered" : undefined}
       {...props}
     />

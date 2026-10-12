@@ -339,7 +339,7 @@ export const journey = [
   },
   {
     years: "2025-Present",
-    role: "Senior Associate - IT Administration",
+    role: "Senior Associate – IT Administration",
     company: "Lucey Group",
     description:
       "Manages Microsoft 365 tenants, endpoint modernization, Azure resources, automation, Purview, Copilot governance and AI-enabled IT workflows.",

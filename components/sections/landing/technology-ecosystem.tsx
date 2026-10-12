@@ -10,11 +10,14 @@ import { technologyCategories, technologyRelationships } from "./data";
 export function TechnologyEcosystem() {
   const [categoryIndex, setCategoryIndex] = useState(0);
   const [active, setActive] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [focused, setFocused] = useState<string | null>(null);
+  const preview = focused ?? hovered ?? active;
   const category = technologyCategories[categoryIndex];
   const mapId = useId();
   const related = new Set(
     technologyRelationships
-      .filter((pair) => pair.includes(active ?? ""))
+      .filter((pair) => pair.includes(preview ?? ""))
       .flat(),
   );
 
@@ -34,6 +37,8 @@ export function TechnologyEcosystem() {
             onClick={() => {
               setCategoryIndex(index);
               setActive(null);
+              setHovered(null);
+              setFocused(null);
             }}
             className={cn(
               "interactive-surface motion-safe-default shrink-0 rounded-xl border p-4 text-left text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -61,8 +66,10 @@ export function TechnologyEcosystem() {
             <motion.div key={name} variants={fadeUp}>
               <button
                 type="button"
-                onMouseEnter={() => setActive(name)}
-                onFocus={() => setActive(name)}
+                onMouseEnter={() => setHovered(name)}
+                onMouseLeave={() => setHovered(null)}
+                onFocus={() => setFocused(name)}
+                onBlur={() => setFocused(null)}
                 onClick={() => setActive(name)}
                 aria-pressed={active === name}
                 className={cn(

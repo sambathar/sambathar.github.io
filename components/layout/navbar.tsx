@@ -24,8 +24,6 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ] as const;
 
-const NAVBAR_OFFSET = 80;
-
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -86,12 +84,11 @@ export function Navbar() {
       return;
     }
 
-    const top =
-      target.getBoundingClientRect().top + window.scrollY - NAVBAR_OFFSET;
-
-    window.scrollTo({
-      top: Math.max(top, 0),
-      behavior: "smooth",
+    target.scrollIntoView({
+      block: "start",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
     });
   }
 

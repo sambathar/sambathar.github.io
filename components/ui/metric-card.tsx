@@ -19,8 +19,10 @@ export function MetricCard({
   return (
     <Card className={cn("overflow-hidden", className)} {...props}>
       <CardContent className="space-y-3 p-5">
+        <p className="text-3xl font-semibold tabular-nums tracking-tight">
+          {value}
+        </p>
         <p className="text-sm font-medium text-muted-foreground">{label}</p>
-        <p className="text-3xl font-semibold tracking-tight">{value}</p>
         <p className="text-sm leading-6 text-muted-foreground">{helperText}</p>
       </CardContent>
     </Card>

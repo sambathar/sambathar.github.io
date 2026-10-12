@@ -21,7 +21,7 @@ export function ImpactMetrics() {
         <div className="space-y-5 sm:space-y-8">
           <SectionHeading
             eyebrow="Measured Impact"
-            title="Verified operational outcomes."
+            title="Measured operational impact."
             description="Numbers reflect documented outcomes and operational scope."
           />
           <motion.div
@@ -57,7 +57,7 @@ export function ImpactMetrics() {
                   role="group"
                   aria-label={`${metric.value} ${metric.label}: ${metric.context}`}
                   className={cn(
-                    "h-full w-full hover:border-foreground/50 hover:shadow-soft focus-visible:border-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-safe:transition-[border-color,box-shadow] max-sm:[&>div]:p-3 [&_p:nth-child(2)]:tabular-nums",
+                    "h-full w-full hover:border-foreground/50 hover:shadow-soft focus-visible:border-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-safe:transition-[border-color,box-shadow] max-sm:[&>div]:p-3",
                     index < 4 && "border-foreground/30 bg-muted/30",
                   )}
                 />
