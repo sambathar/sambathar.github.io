@@ -23,6 +23,7 @@ import {
   socialLinks,
 } from "./landing/data";
 import { HeroArchitecture } from "./landing/hero-architecture";
+import { InfrastructureBootSequence } from "./landing/infrastructure-boot-sequence";
 import { TechnologyEcosystem } from "./landing/technology-ecosystem";
 import { EngineeringPrinciples } from "./landing/engineering-principles";
 import { CaseStudyExplorer } from "./landing/case-study-explorer";
@@ -32,6 +33,7 @@ import { AIAutomationArchitecture } from "./landing/ai-automation-architecture";
 export function LandingExperience() {
   return (
     <MotionConfig reducedMotion="user">
+      <InfrastructureBootSequence />
       <HeroSection />
       <TechnologyEcosystemSection />
       <IdentitySection />
@@ -57,7 +59,8 @@ function HeroSection() {
           <motion.div
             className="min-w-0 space-y-6"
             variants={stagger}
-            initial="hidden"
+            // Keep the hero readable even before JavaScript initializes.
+            initial={false}
             animate="visible"
           >
             <motion.div className="space-y-4" variants={fadeUp}>

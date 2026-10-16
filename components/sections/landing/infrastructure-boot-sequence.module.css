@@ -1,0 +1,500 @@
+/* Experimental palette is local to this overlay, never the portfolio theme. */
+.root {
+  --boot-bg: #090a0c;
+  --boot-white: #f4eee3;
+  --boot-gold: #edc36b;
+  --boot-amber: #d99746;
+  --boot-slate: #8a909a;
+  --boot-cyan: #71949c;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--boot-bg);
+  color: var(--boot-white);
+  padding: 1.5rem;
+  pointer-events: none;
+  visibility: hidden;
+  isolation: isolate;
+}
+
+.network {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  fill: none;
+  transform-origin: center;
+}
+
+.connections {
+  stroke: var(--boot-slate);
+  stroke-opacity: 0.23;
+  stroke-width: 0.75;
+}
+
+.connections path:nth-child(-n + 2) {
+  stroke-opacity: 0.38;
+}
+
+.energy path {
+  stroke: var(--boot-amber);
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-dasharray: 0.16 0.84;
+  stroke-dashoffset: 1;
+}
+
+.junctions {
+  fill: var(--boot-bg);
+  stroke: var(--boot-cyan);
+  stroke-opacity: 0.5;
+  stroke-width: 1;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  max-width: 68rem;
+  min-width: 0;
+  text-align: center;
+}
+
+.eyebrow,
+.label,
+.completion,
+.skipHint {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+}
+
+.eyebrow {
+  color: var(--boot-slate);
+  letter-spacing: 0.12em;
+  margin-bottom: 1.5rem;
+}
+
+.name {
+  position: relative;
+  isolation: isolate;
+  display: inline-block;
+  max-width: 100%;
+  /* Orbitron Bold is installed locally, not bundled or fetched. Other devices
+     fall back to industrial/geometric system faces, not identical glyphs. */
+  font-family: "Orbitron", "Bahnschrift", "Century Gothic", sans-serif;
+  font-size: clamp(2rem, 7.4vw, 7.5rem);
+  font-weight: 700;
+  font-synthesis: none;
+  font-kerning: normal;
+  font-variant-ligatures: none;
+  line-height: 1.15;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  color: var(--boot-white);
+  text-shadow:
+    0 1px 0 rgb(237 195 107 / 0.28),
+    0 0 8px rgb(237 195 107 / 0.1),
+    0 0 18px rgb(217 151 70 / 0.06);
+}
+
+.name::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -3rem -1rem;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse, rgb(217 151 70 / 0.1), transparent 68%);
+}
+
+.nameText {
+  display: block;
+}
+
+.name::after {
+  content: attr(data-name);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  color: transparent;
+  text-shadow: none;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    rgb(217 151 70 / 0.9) 41%,
+    var(--boot-gold) 46%,
+    #fff2ce 50%,
+    var(--boot-gold) 54%,
+    rgb(217 151 70 / 0.8) 59%,
+    transparent 68%
+  );
+  background-size: 260% 100%;
+  background-position: 100% 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  opacity: 0;
+}
+
+.supporting {
+  margin-top: 1rem;
+  color: var(--boot-slate);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+
+.layers {
+  --layer-gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem var(--layer-gap);
+  width: 100%;
+  max-width: 48rem;
+  margin: 2.5rem auto 0;
+}
+
+.layer {
+  position: relative;
+  min-width: 0;
+  padding-top: 0.75rem;
+}
+
+.layer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: calc(100% + var(--layer-gap));
+  height: 1px;
+  background: rgb(138 144 154 / 0.25);
+}
+
+.layer:nth-child(even)::before {
+  display: none;
+}
+
+.node {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--boot-slate);
+  border-radius: 50%;
+  background: var(--boot-bg);
+  transform: translate(-50%, -50%);
+}
+
+.label {
+  color: var(--boot-slate);
+  font-size: 0.625rem;
+}
+
+.technology {
+  margin-top: 0.25rem;
+  color: var(--boot-slate);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.progressTrack {
+  width: min(100%, 20rem);
+  height: 1px;
+  margin: 2rem auto 1rem;
+  overflow: hidden;
+  background: rgb(138 144 154 / 0.25);
+}
+
+.progress {
+  display: block;
+  height: 100%;
+  background: var(--boot-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.completion {
+  min-height: 1.1rem;
+  color: var(--boot-gold);
+  letter-spacing: 0.16em;
+  opacity: 0;
+}
+
+.convergence {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(76vw, 48rem);
+  height: 1px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scaleX(0.45);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--boot-amber),
+    var(--boot-white),
+    var(--boot-gold),
+    transparent
+  );
+  box-shadow: 0 0 10px rgb(217 151 70 / 0.16);
+}
+
+.skipHint {
+  position: absolute;
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  left: 1.5rem;
+  right: 1.5rem;
+  text-align: center;
+  color: var(--boot-slate);
+  font-size: 0.625rem;
+}
+
+@media (min-width: 640px) {
+  .layers {
+    --layer-gap: 1.5rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .layer:nth-child(2)::before {
+    display: block;
+  }
+  .label {
+    font-size: 0.6875rem;
+  }
+  .technology {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-height: 480px) {
+  .eyebrow {
+    margin-bottom: 0.75rem;
+  }
+  .layers {
+    --layer-gap: 0.75rem;
+    margin-top: 1.25rem;
+    gap: 0.75rem;
+  }
+  .progressTrack {
+    margin-block: 1rem 0.5rem;
+  }
+  .skipHint {
+    bottom: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .root[data-playing="true"] {
+    /* CSS owns first paint and completion, even before hydration. Pointer
+       input can reach the page; the document listener dismisses when ready. */
+    animation: exit var(--boot-duration) var(--boot-ease) var(--boot-offset)
+      both;
+  }
+  .root[data-playing="true"] .network {
+    animation: network var(--boot-duration) var(--boot-ease) var(--boot-offset)
+      both;
+  }
+  .root[data-playing="true"] .energy path {
+    animation: travel 1100ms ease-in-out
+      calc(var(--travel-delay) + var(--boot-offset)) both;
+  }
+  .root[data-playing="true"] .junctions circle {
+    animation: junctionLight 380ms var(--boot-ease)
+      calc(var(--junction-delay) + var(--boot-offset)) both;
+  }
+  .root[data-playing="true"] .content {
+    animation: gather var(--boot-duration) var(--boot-ease) var(--boot-offset)
+      both;
+  }
+  .root[data-playing="true"] .convergence {
+    animation: converge var(--boot-duration) var(--boot-ease) var(--boot-offset)
+      both;
+  }
+  .root[data-playing="true"] .nameText {
+    animation: nameReveal 520ms var(--boot-ease)
+      calc(260ms + var(--boot-offset)) both;
+  }
+  .root[data-playing="true"] .name::before {
+    animation: halo 1300ms var(--boot-ease) calc(300ms + var(--boot-offset))
+      both;
+  }
+  .root[data-playing="true"] .name::after {
+    animation: sweep 600ms ease-in-out calc(620ms + var(--boot-offset)) both;
+  }
+  .root[data-playing="true"] .node {
+    animation: illuminate 140ms var(--boot-ease)
+      calc(var(--layer-delay) + var(--boot-offset)) both;
+  }
+  .root[data-playing="true"] .technology {
+    animation: layerLight 140ms var(--boot-ease)
+      calc(var(--layer-delay) + var(--boot-offset)) both;
+  }
+  .root[data-playing="true"] .progress {
+    animation: progress 1500ms var(--boot-ease) var(--boot-offset) both;
+  }
+  .root[data-playing="true"] .completion {
+    animation: ready 100ms var(--boot-ease) calc(1440ms + var(--boot-offset))
+      both;
+  }
+}
+
+@keyframes network {
+  0% {
+    opacity: 0;
+    transform: none;
+  }
+  20%,
+  88% {
+    opacity: 0.65;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+@keyframes travel {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  15%,
+  80% {
+    opacity: 0.82;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes nameReveal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0);
+  }
+}
+
+/* One illumination per node, never a repeating blink or a live status check. */
+@keyframes junctionLight {
+  0% {
+    fill: var(--boot-bg);
+    stroke: var(--boot-cyan);
+    stroke-opacity: 0.5;
+  }
+  55% {
+    fill: var(--boot-gold);
+    stroke: var(--boot-gold);
+    stroke-opacity: 0.9;
+  }
+  100% {
+    fill: var(--boot-gold);
+    stroke: var(--boot-gold);
+    stroke-opacity: 0.75;
+  }
+}
+
+@keyframes halo {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  30%,
+  80% {
+    opacity: 1;
+  }
+}
+
+@keyframes sweep {
+  0% {
+    opacity: 0;
+    background-position: 100% 0;
+  }
+  25%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    background-position: 0 0;
+  }
+}
+
+@keyframes illuminate {
+  to {
+    border-color: var(--boot-gold);
+    background: var(--boot-gold);
+  }
+}
+
+@keyframes layerLight {
+  to {
+    color: var(--boot-white);
+  }
+}
+
+@keyframes progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes ready {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gather {
+  0%,
+  84% {
+    opacity: 1;
+    transform: none;
+  }
+  88%,
+  100% {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+}
+
+@keyframes converge {
+  0%,
+  77% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scaleX(0.45);
+  }
+  87% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scaleX(0.3);
+  }
+}
+
+@keyframes exit {
+  0%,
+  /* Text clears exactly as the backdrop starts revealing the hero: no
+     overlapping headings and no opaque, line-only interval between them. */
+  88% {
+    visibility: visible;
+    opacity: 1;
+  }
+  100% {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
