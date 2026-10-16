@@ -22,6 +22,7 @@ Status: Draft
 - No certificates are required for V1.
 - No fake testimonials, fake logos, or skill percentage ratings.
 - Resume is downloadable as a real PDF at `/resume/Sambath-A-R-IT-Cloud-Infrastructure.pdf`.
+- Preserve that public URL when replacing the resume. Buttons use the byte-identical static `/resume/Sambath_A_R_Resume.pdf` alias and matching download attribute so both native downloads and URL-based PDF saves use the preferred filename. No fetch/Blob download handler is used.
 - Portfolio content is derived from verified resume material.
 - Interactive engineering visualizations are the main visual language.
 - Contact is handled through email, LinkedIn, and GitHub; no contact form.

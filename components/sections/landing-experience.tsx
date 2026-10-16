@@ -16,7 +16,12 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Tag } from "@/components/ui/tag";
 import { fadeUp, stagger } from "@/lib/motion";
-import { resumeHref, resumeHighlights, socialLinks } from "./landing/data";
+import {
+  resumeDownloadFilename,
+  resumeHref,
+  resumeHighlights,
+  socialLinks,
+} from "./landing/data";
 import { HeroArchitecture } from "./landing/hero-architecture";
 import { TechnologyEcosystem } from "./landing/technology-ecosystem";
 import { EngineeringPrinciples } from "./landing/engineering-principles";
@@ -39,6 +44,7 @@ export function LandingExperience() {
     </MotionConfig>
   );
 }
+
 function HeroSection() {
   return (
     <Section
@@ -81,7 +87,7 @@ function HeroSection() {
                   </a>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <a href={resumeHref} download>
+                  <a href={resumeHref} download={resumeDownloadFilename}>
                     Download Resume
                     <ArrowDownToLine className="ml-2 size-4" aria-hidden />
                   </a>
@@ -220,7 +226,7 @@ function ResumeSection() {
               <SocialLinks />
             </div>
             <Button size="lg" asChild>
-              <a href={resumeHref} download>
+              <a href={resumeHref} download={resumeDownloadFilename}>
                 Download Resume
                 <ArrowDownToLine className="ml-2 size-4" aria-hidden />
               </a>

@@ -46,6 +46,7 @@ V3 refines V1.2 while preserving section order, the neutral dark-first identity,
 - No backend, database, API routes, or runtime server features.
 - No profile photo, certificates, fake testimonials, skill percentage ratings, or fabricated metrics.
 - Resume download points to the real PDF asset at `/resume/Sambath-A-R-IT-Cloud-Infrastructure.pdf`.
+- Both download buttons link to the static `/resume/Sambath_A_R_Resume.pdf` alias and request the same download filename. The legacy public URL above remains available with identical PDF contents.
 
 ## Related Documents
 

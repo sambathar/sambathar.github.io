@@ -16,6 +16,10 @@ Status: Draft
 
 Portfolio content must be derived from verified resume material for Sambath A R.
 
+The current source is `Sambath_A_R_Resume.pdf` (reviewed 2026-10-16). Both `/resume/Sambath_A_R_Resume.pdf` and the legacy `/resume/Sambath-A-R-IT-Cloud-Infrastructure.pdf` URL serve identical bytes. Download buttons use the preferred-filename alias with `download="Sambath_A_R_Resume.pdf"` and no scripted download handler.
+
+Resume alignment includes tenant-to-tenant and Google Workspace-to-M365 migrations, BitTitan/Cloudiway, Windows Autopilot support, Intune Win32 packaging and Blob Storage. Four tenants and 100+ users describe administration scope, not four migrations. The 99.9% availability figure belongs to VMware operations at SVM Tech. Do not transfer that figure to the current role or attach a quantitative outcome to AI automation.
+
 ## Allowed Content
 
 - Verified roles, dates, companies, and locations.

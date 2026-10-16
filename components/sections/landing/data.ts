@@ -1,4 +1,7 @@
-export const resumeHref = "/resume/Sambath-A-R-IT-Cloud-Infrastructure.pdf";
+export const resumeDownloadFilename = "Sambath_A_R_Resume.pdf";
+// The legacy PDF stays available; this static alias also gives native PDF
+// viewers the intended filename when they save using the URL basename.
+export const resumeHref = `/resume/${resumeDownloadFilename}`;
 
 export const socialLinks = [
   {
@@ -113,6 +116,8 @@ export const technologyCategories = [
       ["Exchange Online", "Messaging"],
       ["SharePoint", "Collaboration and content"],
       ["Teams", "Communication"],
+      ["M365 migrations", "Tenant-to-tenant and Google Workspace-to-M365"],
+      ["BitTitan / Cloudiway", "Migration tooling with PowerShell scripts"],
     ],
   },
   {
@@ -121,6 +126,11 @@ export const technologyCategories = [
       ["Microsoft Intune", "Endpoint management"],
       ["ManageEngine", "MDM migration"],
       ["Addigy", "macOS management"],
+      ["Windows Autopilot", "Deployment support for new and existing devices"],
+      [
+        "Win32 app packaging",
+        ".intunewin conversion and PowerShell deployment scripts",
+      ],
     ],
   },
   {
@@ -137,7 +147,7 @@ export const technologyCategories = [
   {
     name: "Automation",
     items: [
-      ["PowerShell", "Operational scripting"],
+      ["PowerShell", "Operational and migration scripting"],
       ["Microsoft Graph API", "Lifecycle automation"],
       ["Power Automate", "Workflow automation"],
       ["Power Apps", "Business apps"],
@@ -149,8 +159,8 @@ export const technologyCategories = [
   {
     name: "Cloud Infrastructure",
     items: [
-      ["Azure VMs", "Compute administration"],
-      ["Azure Storage", "Cloud storage"],
+      ["Azure VMs", "Compute administration across multiple tenants"],
+      ["Azure Storage", "Storage Accounts and Blob Storage"],
       ["AWS EC2", "Cloud compute"],
       ["AWS S3", "Object storage"],
       ["IAM", "Access management"],
@@ -171,8 +181,15 @@ export const technologyCategories = [
 // Relationships describe technology areas, not deployed integrations.
 export const technologyRelationships: readonly (readonly string[])[] = [
   ["Microsoft 365", "Exchange Online", "SharePoint", "Teams"],
+  ["Microsoft 365", "M365 migrations", "BitTitan / Cloudiway"],
   ["Entra ID", "Microsoft 365", "Azure"],
-  ["Microsoft Intune", "ManageEngine", "Addigy"],
+  [
+    "Microsoft Intune",
+    "ManageEngine",
+    "Addigy",
+    "Windows Autopilot",
+    "Win32 app packaging",
+  ],
   ["Microsoft Purview", "DLP", "GDPR", "DSAR"],
   ["Microsoft Defender", "MFA"],
   ["PowerShell", "Microsoft Graph API", "Python", "Bash"],
@@ -217,10 +234,15 @@ export const caseStudies = [
   {
     title: "Endpoint & MDM Modernization",
     context:
-      "Managing a mixed macOS and Windows endpoint fleet required a global MDM migration and stronger compliance controls.",
+      "Managing 100–150 macOS and Windows endpoints required a global MDM migration and stronger compliance controls.",
     approach:
-      "Coordinated endpoint migration using ManageEngine and Microsoft Intune, with compliance validation and policy alignment across global users.",
-    technology: ["ManageEngine", "Microsoft Intune"],
+      "Led the MDM migration using ManageEngine and Microsoft Intune, supported Windows Autopilot deployments, and packaged Win32 applications as .intunewin files with PowerShell detection, installation and uninstallation scripts.",
+    technology: [
+      "ManageEngine",
+      "Microsoft Intune",
+      "Windows Autopilot",
+      "PowerShell",
+    ],
     outcome: "100% endpoint compliance",
   },
   {
@@ -270,9 +292,8 @@ export const measuredImpact = [
   {
     value: "4",
     numericValue: 4,
-    label:
-      "Microsoft 365 tenants managed across multiple business environments",
-    context: "Multi-tenant administration",
+    label: "Microsoft 365 tenants managed",
+    context: "Administration for 100+ users across global teams",
   },
   {
     value: "100-150",
@@ -298,7 +319,7 @@ export const measuredImpact = [
     value: "99.9%",
     numericValue: 99.9,
     label: "System availability",
-    context: "Infrastructure operations",
+    context: "VMware operations at SVM Tech",
   },
 ] as const;
 
@@ -317,7 +338,7 @@ export const journey = [
     role: "System Administrator",
     company: "SVM Tech Private Ltd",
     description:
-      "Led infrastructure upgrades, VMware virtualization, Azure administration, availability operations, and Office 365 migration work.",
+      "Led infrastructure upgrades, VMware virtualization and Azure administration; maintained availability operations and migrated Google Workspace users to Microsoft 365 using PowerShell, BitTitan and Cloudiway.",
     progression: "System Administration",
     technologies: ["VMware", "Azure", "Office 365 migration", "PowerShell"],
   },
@@ -342,7 +363,7 @@ export const journey = [
     role: "Senior Associate – IT Administration",
     company: "Lucey Group",
     description:
-      "Manages Microsoft 365 tenants, endpoint modernization, Azure resources, automation, Purview, Copilot governance and AI-enabled IT workflows.",
+      "Manages Microsoft 365 tenants, endpoint modernization, Azure resources, Purview, Copilot governance and AI-enabled IT workflows. Executed a tenant-to-tenant migration using BitTitan, Cloudiway and PowerShell.",
     progression: "Infrastructure + Automation + AI",
     technologies: [
       "M365 multi-tenant",
